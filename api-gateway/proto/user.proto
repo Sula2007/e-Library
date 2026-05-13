@@ -1,0 +1,57 @@
+syntax = "proto3";
+
+package user;
+
+option go_package = "github.com/Sula2007/user-service/proto/gen;gen";
+
+service UserService {
+  rpc RegisterUser(RegisterUserRequest) returns (RegisterUserResponse);
+  rpc LoginUser(LoginUserRequest) returns (LoginUserResponse);
+  rpc GetUserProfile(GetUserProfileRequest) returns (GetUserProfileResponse);
+  rpc UpdateUserProfile(UpdateUserProfileRequest) returns (UpdateUserProfileResponse);
+  rpc DeleteUser(DeleteUserRequest) returns (DeleteUserResponse);
+}
+
+message RegisterUserRequest {
+  string name     = 1;
+  string email    = 2;
+  string password = 3;
+}
+message RegisterUserResponse {
+  string id      = 1;
+  string message = 2;
+}
+
+message LoginUserRequest {
+  string email    = 1;
+  string password = 2;
+}
+message LoginUserResponse {
+  string token   = 1;
+  string message = 2;
+}
+
+message GetUserProfileRequest {
+  string id = 1;
+}
+message GetUserProfileResponse {
+  string id    = 1;
+  string name  = 2;
+  string email = 3;
+}
+
+message UpdateUserProfileRequest {
+  string id    = 1;
+  string name  = 2;
+  string email = 3;
+}
+message UpdateUserProfileResponse {
+  string message = 1;
+}
+
+message DeleteUserRequest {
+  string id = 1;
+}
+message DeleteUserResponse {
+  string message = 1;
+}
