@@ -1,0 +1,54 @@
+syntax = "proto3";
+
+package payment;
+
+option go_package = "github.com/Sula2007/payment-service/proto/gen;gen";
+
+service PaymentService {
+  rpc CreatePayment(CreatePaymentRequest) returns (CreatePaymentResponse);
+  rpc GetPayment(GetPaymentRequest) returns (GetPaymentResponse);
+  rpc GetUserPayments(GetUserPaymentsRequest) returns (GetUserPaymentsResponse);
+  rpc UpdatePaymentStatus(UpdatePaymentStatusRequest) returns (UpdatePaymentStatusResponse);
+}
+
+message Payment {
+  string id         = 1;
+  string user_id    = 2;
+  string book_id    = 3;
+  double amount     = 4;
+  string status     = 5;
+  string created_at = 6;
+}
+
+message CreatePaymentRequest {
+  string user_id = 1;
+  string book_id = 2;
+  double amount  = 3;
+}
+message CreatePaymentResponse {
+  string id      = 1;
+  string status  = 2;
+  string message = 3;
+}
+
+message GetPaymentRequest {
+  string id = 1;
+}
+message GetPaymentResponse {
+  Payment payment = 1;
+}
+
+message GetUserPaymentsRequest {
+  string user_id = 1;
+}
+message GetUserPaymentsResponse {
+  repeated Payment payments = 1;
+}
+
+message UpdatePaymentStatusRequest {
+  string id     = 1;
+  string status = 2;
+}
+message UpdatePaymentStatusResponse {
+  string message = 1;
+}

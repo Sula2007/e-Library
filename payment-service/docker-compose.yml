@@ -1,0 +1,30 @@
+services:
+  postgres:
+    image: postgres:15
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: paymentdb
+    ports:
+      - "5433:5432"
+    volumes:
+      - pgdata_payment:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  payment-service:
+    build: .
+    ports:
+      - "50054:50054"
+    environment:
+      GRPC_PORT: 50054
+      DB_URL: postgres://postgres:postgres@postgres:5432/paymentdb?sslmode=disable
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+volumes:
+  pgdata_payment:
